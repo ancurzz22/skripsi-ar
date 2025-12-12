@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>GeoAR Kampus Demo</title>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+    <script src="https://raw.githack.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+  </head>
+
+  <body style="margin: 0; overflow: hidden">
+    <a-scene
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; sourceWidth:1280; sourceHeight:960; displayWidth: 1280; displayHeight: 960; debugUIEnabled: false;"
+    >
+      <a-camera gps-camera rotation-reader></a-camera>
+
+      <a-text
+        value="Ini Kamar Saya"
+        scale="5 5 5"
+        look-at="[gps-camera]"
+        gps-entity-place="latitude: -6.XXXX; longitude: 106.XXXX;"
+        color="red"
+      ></a-text>
+
+      <a-image
+        src="https://cdn-icons-png.flaticon.com/512/684/684908.png"
+        scale="10 10 10"
+        look-at="[gps-camera]"
+        gps-entity-place="latitude: -6.YYYY; longitude: 106.YYYY;"
+      ></a-image>
+    </a-scene>
+  </body>
+</html>
