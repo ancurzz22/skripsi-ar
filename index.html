@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Skripsi AR Kampus - Demo</title>
-    
+
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
-    
-    <script src='https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js'></script>
-    
+
+    <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js"></script>
+
     <script src="https://unpkg.com/aframe-look-at-component@0.8.0/dist/aframe-look-at-component.min.js"></script>
-</head>
+  </head>
 
-<body style='margin: 0; overflow: hidden;'>
-
+  <body style="margin: 0; overflow: hidden">
     <a-scene
-        vr-mode-ui="enabled: false"
-        embedded
-        arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false;'>
+      vr-mode-ui="enabled: false"
+      embedded
+      arjs="sourceType: webcam; videoTexture: true; debugUIEnabled: false;"
+    >
+      <a-camera gps-camera rotation-reader></a-camera>
 
-        <a-camera gps-camera rotation-reader></a-camera>
+      <a-text
+        value="GANG RENGGALI"
+        look-at="[gps-camera]"
+        scale="20 20 20"
+        gps-entity-place="latitude: -8.179465; longitude: 113.716493;"
+        color="yellow"
+        align="center"
+        position="0 10 0"
+      >
+      </a-text>
 
-        <a-text
-            value="GANG RENGGALI"
-            look-at="[gps-camera]"
-            scale="20 20 20"
-            gps-entity-place="latitude: -8.179389428728035; longitude: 113.71621579633508;"
-            color="yellow"
-            align="center"
-            position="0 10 0"> 
-            </a-text>
-
-        <a-box
-            material="color: red;"
-            scale="5 5 5"
-            gps-entity-place="latitude: -8.179389428728035; longitude: 113.71621579633508;"
-            position="0 0 0">
-        </a-box>
-
+      <a-box
+        material="color: red;"
+        scale="5 5 5"
+        gps-entity-place="latitude: -8.179465; longitude: 113.716493;"
+        position="0 0 0"
+      >
+      </a-box>
     </a-scene>
-</body>
+  </body>
 </html>
