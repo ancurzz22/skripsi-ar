@@ -3,22 +3,45 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>AR Kampus - Test Target</title>
+    <title>AR Kampus - Manual Debug</title>
     
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src='https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js'></script>
+    
+    <style>
+        /* KOTAK DEBUG MANUAL */
+        #debug-console {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: lime;
+            padding: 10px;
+            font-family: monospace;
+            z-index: 9999;
+            border-radius: 5px;
+            font-size: 14px;
+            pointer-events: none;
+        }
+    </style>
 </head>
 
 <body style='margin: 0; overflow: hidden;'>
 
+    <div id="debug-console">
+        Status: Menunggu GPS...<br>
+        Jarak: -
+    </div>
+
     <a-scene
         vr-mode-ui="enabled: false"
         embedded
-        arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: true;'>
+        arjs='sourceType: webcam; videoTexture: true; debugUIEnabled: false;'>
 
         <a-camera gps-camera="simulateAltitude: 0;" rotation-reader></a-camera>
 
         <a-text
+            id="target-lokasi"
             value="LOKASI TARGET"
             scale="30 30 30"
             gps-entity-place="latitude: -8.176989; longitude: 113.729191;"
@@ -26,7 +49,7 @@
             align="center"
             position="0 20 0">
         </a-text>
-
+        
         <a-box
             material="color: red;"
             scale="10 10 10"
@@ -35,5 +58,26 @@
         </a-box>
 
     </a-scene>
+
+    <script>
+        // Ambil elemen kotak dan target
+        const debugDiv = document.getElementById('debug-console');
+        const target = document.getElementById('target-lokasi');
+
+        // Event listener saat GPS HP update posisi
+        window.addEventListener('gps-camera-update-position', function(e) {
+            debugDiv.innerHTML = "Status: GPS AKTIF!<br>Mencari target...";
+        });
+
+        // Event listener khusus buat ngitung jarak ke target
+        target.addEventListener('gps-entity-place-update-positon', function(event) {
+            // Ambil jarak (distance) dari event
+            var jarak = event.detail.distance;
+            
+            // Tampilin ke kotak
+            debugDiv.innerHTML = "Status: OK<br>Jarak ke Target: " + Math.round(jarak) + " meter";
+        });
+    </script>
+
 </body>
 </html>
