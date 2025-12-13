@@ -3,25 +3,26 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>AR Kampus - Manual Debug</title>
+    <title>AR 4 Target - Rekopi</title>
     
     <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src='https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar-nft.js'></script>
     
     <style>
-        /* KOTAK DEBUG MANUAL */
+        /* Tampilan Kotak Debug di Pojok Kiri Atas */
         #debug-console {
             position: fixed;
             top: 10px;
             left: 10px;
-            background-color: rgba(0, 0, 0, 0.8);
+            background-color: rgba(0, 0, 0, 0.7);
             color: lime;
             padding: 10px;
             font-family: monospace;
             z-index: 9999;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 12px;
             pointer-events: none;
+            min-width: 150px;
         }
     </style>
 </head>
@@ -30,7 +31,11 @@
 
     <div id="debug-console">
         Status: Menunggu GPS...<br>
-        Jarak: -
+        ---------------------<br>
+        Target 1: -<br>
+        Target 2: -<br>
+        Target 3: -<br>
+        Target 4: -
     </div>
 
     <a-scene
@@ -40,42 +45,113 @@
 
         <a-camera gps-camera="simulateAltitude: 0;" rotation-reader></a-camera>
 
+
         <a-text
-            id="target-lokasi"
-            value="LOKASI TARGET"
-            scale="30 30 30"
-            gps-entity-place="latitude: -8.176989; longitude: 113.729191;"
+            id="text-1"
+            value="TARGET 1"
+            scale="20 20 20"
+            gps-entity-place="latitude: -8.177012; longitude: 113.729122;"
             color="yellow"
             align="center"
             position="0 20 0">
         </a-text>
-        
         <a-box
-            material="color: red;"
-            scale="10 10 10"
-            gps-entity-place="latitude: -8.176989; longitude: 113.729191;"
+            material="color: yellow;"
+            scale="5 5 5"
+            gps-entity-place="latitude: -8.177012; longitude: 113.729122;"
+            position="0 0 0">
+        </a-box>
+
+
+        <a-text
+            id="text-2"
+            value="TARGET 2"
+            scale="20 20 20"
+            gps-entity-place="latitude: -8.177106; longitude: 113.729139;"
+            color="cyan"
+            align="center"
+            position="0 20 0">
+        </a-text>
+        <a-box
+            material="color: cyan;"
+            scale="5 5 5"
+            gps-entity-place="latitude: -8.177106; longitude: 113.729139;"
+            position="0 0 0">
+        </a-box>
+
+
+        <a-text
+            id="text-3"
+            value="TARGET 3"
+            scale="20 20 20"
+            gps-entity-place="latitude: -8.177083; longitude: 113.729215;"
+            color="magenta"
+            align="center"
+            position="0 20 0">
+        </a-text>
+        <a-box
+            material="color: magenta;"
+            scale="5 5 5"
+            gps-entity-place="latitude: -8.177083; longitude: 113.729215;"
+            position="0 0 0">
+        </a-box>
+
+
+        <a-text
+            id="text-4"
+            value="TARGET 4"
+            scale="20 20 20"
+            gps-entity-place="latitude: -8.176941; longitude: 113.729174;"
+            color="#00FF00"
+            align="center"
+            position="0 20 0">
+        </a-text>
+        <a-box
+            material="color: #00FF00;"
+            scale="5 5 5"
+            gps-entity-place="latitude: -8.176941; longitude: 113.729174;"
             position="0 0 0">
         </a-box>
 
     </a-scene>
 
     <script>
-        // Ambil elemen kotak dan target
         const debugDiv = document.getElementById('debug-console');
-        const target = document.getElementById('target-lokasi');
+        
+        // Daftar ID target
+        const targets = ['text-1', 'text-2', 'text-3', 'text-4'];
+        
+        // Object penyimpanan jarak sementara
+        let distances = { 
+            'text-1': '-', 
+            'text-2': '-', 
+            'text-3': '-',
+            'text-4': '-'
+        };
+
+        // Fungsi update tampilan kotak
+        function updateDebugDisplay() {
+            let output = "Status: GPS AKTIF!<br>---------------------<br>";
+            targets.forEach((id, index) => {
+                output += `Target ${index + 1}: ${distances[id]}<br>`;
+            });
+            debugDiv.innerHTML = output;
+        }
 
         // Event listener saat GPS HP update posisi
         window.addEventListener('gps-camera-update-position', function(e) {
-            debugDiv.innerHTML = "Status: GPS AKTIF!<br>Mencari target...";
+            updateDebugDisplay();
         });
 
-        // Event listener khusus buat ngitung jarak ke target
-        target.addEventListener('gps-entity-place-update-positon', function(event) {
-            // Ambil jarak (distance) dari event
-            var jarak = event.detail.distance;
-            
-            // Tampilin ke kotak
-            debugDiv.innerHTML = "Status: OK<br>Jarak ke Target: " + Math.round(jarak) + " meter";
+        // Loop pasang listener ke setiap target
+        targets.forEach(id => {
+            let el = document.getElementById(id);
+            if(el){
+                el.addEventListener('gps-entity-place-update-positon', function(event) {
+                    // Simpan jarak dalam meter
+                    distances[id] = Math.round(event.detail.distance) + "m";
+                });
+            }
         });
     </script>
 
